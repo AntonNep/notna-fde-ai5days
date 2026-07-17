@@ -1,0 +1,8 @@
+[pip]
+index-url = "https://pypi.org/simple"
+extra-index-url = []
+
+[[index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true

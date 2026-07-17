@@ -1,0 +1,26 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "injury_story_trial",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "My dragon companion got scorched by a hot fire trap during our mountain climb. Can you update their physical damage sheet? My email is bob@company.com and phone is 555-0199."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "fire_wings_evolution",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "I want to trigger a fire evolution to grow horns on my dragon!"
+          }
+        ]
+      }
+    }
+  ]
+}
