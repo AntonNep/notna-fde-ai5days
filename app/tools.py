@@ -43,23 +43,23 @@ class EvolutionSchema(BaseModel):
 # Criteria: Comprehensive Tool Docstrings & Descriptive Naming
 
 def generate_dragon_injury_overlay(
-    injury_type: Literal["cut", "scorch", "wing_tear", "bruise"],
-    severity: Literal["minor", "moderate", "severe"],
-    story_context: str,
+    injury: InjurySchema,
     tool_context: ToolContext
 ) -> Dict[str, Any]:
     """Generates coordinate-mapped visual damage layers to overlay onto the custom dragon drawing.
 
     Args:
-        injury_type: The physical classification of the sustained wound.
-        severity: The intensity of the wound which dictates visual size and opacity.
-        story_context: A description of the narrative cause to record in the ledger.
+        injury: The structured injury parameters.
 
     Returns:
         A dict containing 'status', 'overlay_coordinates', and recovery parameters.
     """
     # Criteria: Guided Error Handling
     try:
+        injury_type = injury.injury_type
+        severity = injury.severity
+        story_context = injury.story_context
+
         # Access session state variables
         dragon_health = tool_context.state.get("dragon_health", 100)
         
@@ -97,20 +97,21 @@ def generate_dragon_injury_overlay(
         }
 
 def apply_elemental_evolution(
-    target_element: Literal["fire", "frost", "lightning", "void"],
-    stat_focus: Literal["wings", "armor", "horns"],
+    evolution: EvolutionSchema,
     tool_context: ToolContext
 ) -> Dict[str, Any]:
     """Applies permanent elemental mutations to the companion dragon's stats and base image schema.
 
     Args:
-        target_element: The magical element that governs the evolution's color shift and powers.
-        stat_focus: The physical feature mutated during this evolution step.
+        evolution: The structured evolution parameters.
 
     Returns:
         A dict outlining the upgraded stat parameters and asset overlay keys.
     """
     try:
+        target_element = evolution.target_element
+        stat_focus = evolution.stat_focus
+
         # Store mutations in persistent state
         mutations = tool_context.state.get("mutations", [])
         mutation_key = f"{target_element}_{stat_focus}"
@@ -133,10 +134,10 @@ def apply_elemental_evolution(
 
 # --- Human-in-the-Loop Evolution Confirmation ---
 # Criteria: Human-in-the-Loop Hooks
-def confirm_evolution_decision(target_element: str, **kwargs) -> bool:
+def confirm_evolution_decision(evolution: EvolutionSchema, **kwargs) -> bool:
     """Policy checking if an evolution step is high-stakes and requires manager review."""
     # Always require human approval for legendary void/lightning evolutions
-    return target_element in ["void", "lightning"]
+    return evolution.target_element in ["void", "lightning"]
 
 # FunctionTool wrapping the confirmation policy
 confirm_evolution_milestone = FunctionTool(

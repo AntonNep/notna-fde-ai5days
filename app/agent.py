@@ -38,12 +38,31 @@ except Exception:
 
 os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
 
-# Setup API key authentication fallback if present
-key_path = "/home/notna/agy-projs/gemini_key.txt"
-if os.path.exists(key_path):
-    with open(key_path, "r") as f:
-        api_key = f.read().strip()
-    os.environ["GEMINI_API_KEY"] = api_key
+# Setup Secure API Key Authentication & Secret Manager Integration
+api_key = os.environ.get("GEMINI_API_KEY")
+
+if not api_key:
+    # Attempt to retrieve from GCP Secret Manager using ADK's integrated client
+    secret_name = os.environ.get(
+        "GEMINI_KEY_SECRET_NAME",
+        f"projects/{project_id}/secrets/gemini-api-key/versions/latest"
+    )
+    try:
+        from google.adk.integrations.secret_manager.secret_client import SecretManagerClient
+        client = SecretManagerClient()
+        api_key = client.get_secret(secret_name)
+        os.environ["GEMINI_API_KEY"] = api_key
+        os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
+    except Exception:
+        # Development / local evaluation fallback
+        key_path = "/home/notna/agy-projs/gemini_key.txt"
+        if os.path.exists(key_path):
+            with open(key_path, "r") as f:
+                api_key = f.read().strip()
+            os.environ["GEMINI_API_KEY"] = api_key
+            os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
+
+if os.environ.get("GEMINI_API_KEY"):
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
 else:
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"

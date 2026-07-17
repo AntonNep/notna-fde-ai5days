@@ -1,0 +1,921 @@
+{
+  "eval_case_results": [
+    {
+      "eval_case_index": 0,
+      "response_candidate_results": [
+        {
+          "response_index": 0,
+          "metric_results": {
+            "agent_turn_count": {
+              "metric_name": "agent_turn_count",
+              "score": 1.0,
+              "explanation": null,
+              "rubric_verdicts": null,
+              "raw_output": null,
+              "error_message": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "eval_case_index": 1,
+      "response_candidate_results": [
+        {
+          "response_index": 0,
+          "metric_results": {
+            "agent_turn_count": {
+              "metric_name": "agent_turn_count",
+              "score": 1.0,
+              "explanation": null,
+              "rubric_verdicts": null,
+              "raw_output": null,
+              "error_message": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "summary_metrics": [
+    {
+      "metric_name": "agent_turn_count",
+      "num_cases_total": 2,
+      "num_cases_valid": 2,
+      "num_cases_error": 0,
+      "mean_score": 1.0,
+      "stdev_score": 0.0,
+      "pass_rate": null
+    }
+  ],
+  "win_rates": null,
+  "evaluation_dataset": [
+    {
+      "bigquery_source": null,
+      "gcs_source": null,
+      "eval_cases": [
+        {
+          "prompt": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "My dragon companion got scorched by a hot fire trap during our mountain climb. Can you update their physical damage sheet? My email is bob@company.com and phone is 555-0199.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null,
+                "tool_call": null,
+                "tool_response": null,
+                "part_metadata": null
+              }
+            ],
+            "role": "user"
+          },
+          "responses": [
+            {
+              "response": {
+                "parts": [
+                  {
+                    "media_resolution": null,
+                    "code_execution_result": null,
+                    "executable_code": null,
+                    "file_data": null,
+                    "function_call": null,
+                    "function_response": null,
+                    "inline_data": null,
+                    "text": "The fiery trials of the mountain have left their mark, but fear not! Your brave dragon companion's canvas has been updated to reflect the damage. A moderate scorch overlay has been applied, showing the courage they displayed against that treacherous fire trap.\n\nYour companion's health is now at 75, but they are a resilient creature! We can always look into healing or further evolving them to withstand such dangers in the future. Let me know what you and your scaled friend would like to do next on your grand adventure!",
+                    "thought": null,
+                    "thought_signature": null,
+                    "video_metadata": null,
+                    "tool_call": null,
+                    "tool_response": null,
+                    "part_metadata": null
+                  }
+                ],
+                "role": "model"
+              }
+            }
+          ],
+          "reference": null,
+          "system_instruction": null,
+          "conversation_history": null,
+          "rubric_groups": null,
+          "eval_case_id": "injury_story_trial",
+          "intermediate_events": null,
+          "agent_info": null,
+          "agent_data": {
+            "agents": {
+              "emberscale_coordinator": {
+                "agent_id": "emberscale_coordinator",
+                "agent_type": "LlmAgent",
+                "description": "",
+                "instruction": "\n    You are the EmberScale Coordinator. You oversee the player's dragon storytelling journey.\n    - Delegate narrative generation and branching choices to narrative_writer.\n    - Delegate physical changes, stat upgrades, and form upgrades to evolution_designer.\n    - Maintain a highly supportive, fantasy game-master tone.\n    ",
+                "tools": [
+                  {
+                    "retrieval": null,
+                    "computer_use": null,
+                    "file_search": null,
+                    "google_search": null,
+                    "google_maps": null,
+                    "code_execution": null,
+                    "enterprise_web_search": null,
+                    "function_declarations": [
+                      {
+                        "description": "Generates coordinate-mapped visual damage layers to overlay onto the custom dragon drawing.\n\nArgs:\n    injury: The structured injury parameters.\n\nReturns:\n    A dict containing 'status', 'overlay_coordinates', and recovery parameters.",
+                        "name": "generate_dragon_injury_overlay",
+                        "parameters": null,
+                        "parameters_json_schema": {
+                          "$defs": {
+                            "InjurySchema": {
+                              "properties": {
+                                "injury_type": {
+                                  "description": "The type of physical injury sustained by the dragon.",
+                                  "enum": [
+                                    "cut",
+                                    "scorch",
+                                    "wing_tear",
+                                    "bruise"
+                                  ],
+                                  "title": "Injury Type",
+                                  "type": "string"
+                                },
+                                "severity": {
+                                  "description": "The physical impact of the injury on the dragon's stats.",
+                                  "enum": [
+                                    "minor",
+                                    "moderate",
+                                    "severe"
+                                  ],
+                                  "title": "Severity",
+                                  "type": "string"
+                                },
+                                "story_context": {
+                                  "description": "A short string describing how the injury happened in the narrative.",
+                                  "title": "Story Context",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "injury_type",
+                                "severity",
+                                "story_context"
+                              ],
+                              "title": "InjurySchema",
+                              "type": "object"
+                            }
+                          },
+                          "properties": {
+                            "injury": {
+                              "$ref": "#/$defs/InjurySchema"
+                            }
+                          },
+                          "required": [
+                            "injury"
+                          ],
+                          "title": "generate_dragon_injury_overlayParams",
+                          "type": "object"
+                        },
+                        "response": null,
+                        "response_json_schema": null,
+                        "behavior": null
+                      }
+                    ],
+                    "google_search_retrieval": null,
+                    "parallel_ai_search": null,
+                    "url_context": null,
+                    "mcp_servers": null
+                  }
+                ],
+                "sub_agents": [
+                  "narrative_writer",
+                  "evolution_designer"
+                ]
+              },
+              "narrative_writer": {
+                "agent_id": "narrative_writer",
+                "agent_type": "LlmAgent",
+                "description": "Writes story text and narrates choices.",
+                "instruction": "\n    You are EmberScale's Narrative Writer. Your role is to write immersive, rich text adventure descriptions.\n    - Keep story options dramatic, branching, and engaging.\n    - If the user decides on a dangerous path, ensure they encounter physical trials where their dragon gets hurt.\n    - When injuries occur, you must invoke the generate_dragon_injury_overlay tool.\n    ",
+                "tools": [],
+                "sub_agents": []
+              },
+              "evolution_designer": {
+                "agent_id": "evolution_designer",
+                "agent_type": "LlmAgent",
+                "description": "Handles dragon evolution calculations and coordinates.",
+                "instruction": "\n    You are EmberScale's Evolution Designer. Your role is to plan how the dragon changes physically.\n    - When the dragon accumulates enough experience or choice points, coordinate their physical evolution.\n    - You must invoke confirm_evolution_milestone to ask the player for permission before completing the evolution.\n    ",
+                "tools": [
+                  {
+                    "retrieval": null,
+                    "computer_use": null,
+                    "file_search": null,
+                    "google_search": null,
+                    "google_maps": null,
+                    "code_execution": null,
+                    "enterprise_web_search": null,
+                    "function_declarations": [
+                      {
+                        "description": "Applies permanent elemental mutations to the companion dragon's stats and base image schema.\n\nArgs:\n    evolution: The structured evolution parameters.\n\nReturns:\n    A dict outlining the upgraded stat parameters and asset overlay keys.",
+                        "name": "apply_elemental_evolution",
+                        "parameters": null,
+                        "parameters_json_schema": {
+                          "$defs": {
+                            "EvolutionSchema": {
+                              "properties": {
+                                "target_element": {
+                                  "description": "The element the dragon is evolving into.",
+                                  "enum": [
+                                    "fire",
+                                    "frost",
+                                    "lightning",
+                                    "void"
+                                  ],
+                                  "title": "Target Element",
+                                  "type": "string"
+                                },
+                                "stat_focus": {
+                                  "description": "The physical attribute of the dragon receiving the growth.",
+                                  "enum": [
+                                    "wings",
+                                    "armor",
+                                    "horns"
+                                  ],
+                                  "title": "Stat Focus",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "target_element",
+                                "stat_focus"
+                              ],
+                              "title": "EvolutionSchema",
+                              "type": "object"
+                            }
+                          },
+                          "properties": {
+                            "evolution": {
+                              "$ref": "#/$defs/EvolutionSchema"
+                            }
+                          },
+                          "required": [
+                            "evolution"
+                          ],
+                          "title": "apply_elemental_evolutionParams",
+                          "type": "object"
+                        },
+                        "response": null,
+                        "response_json_schema": null,
+                        "behavior": null
+                      }
+                    ],
+                    "google_search_retrieval": null,
+                    "parallel_ai_search": null,
+                    "url_context": null,
+                    "mcp_servers": null
+                  }
+                ],
+                "sub_agents": []
+              }
+            },
+            "turns": [
+              {
+                "turn_index": 0,
+                "turn_id": "turn_0",
+                "events": [
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "lj9y7o2j",
+                            "args": {
+                              "agent_name": "evolution_designer"
+                            },
+                            "name": "transfer_to_agent",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "lj9y7o2j",
+                            "name": "transfer_to_agent",
+                            "response": {
+                              "result": null
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "evolution_designer",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "i6hqxf4f",
+                            "args": {
+                              "agent_name": "emberscale_coordinator"
+                            },
+                            "name": "transfer_to_agent",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "evolution_designer",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "i6hqxf4f",
+                            "name": "transfer_to_agent",
+                            "response": {
+                              "result": null
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "p3vuoao3",
+                            "args": {
+                              "injury": {
+                                "story_context": "scorched by a hot fire trap during a mountain climb",
+                                "injury_type": "scorch",
+                                "severity": "moderate"
+                              }
+                            },
+                            "name": "generate_dragon_injury_overlay",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "p3vuoao3",
+                            "name": "generate_dragon_injury_overlay",
+                            "response": {
+                              "status": "success",
+                              "message": "Applied moderate scorch overlay due to: 'scorched by a hot fire trap during a mountain climb'",
+                              "dragon_health": 75,
+                              "visual_layer": {
+                                "x": 80,
+                                "y": 150,
+                                "asset": "layers/scorch_marks.png"
+                              },
+                              "next_step_instruction": "Tell the user their dragon's canvas has been updated to reflect the damage."
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "The fiery trials of the mountain have left their mark, but fear not! Your brave dragon companion's canvas has been updated to reflect the damage. A moderate scorch overlay has been applied, showing the courage they displayed against that treacherous fire trap.\n\nYour companion's health is now at 75, but they are a resilient creature! We can always look into healing or further evolving them to withstand such dangers in the future. Let me know what you and your scaled friend would like to do next on your grand adventure!",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  }
+                ]
+              }
+            ]
+          },
+          "user_scenario": null
+        },
+        {
+          "prompt": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "I want to trigger a fire evolution to grow horns on my dragon!",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null,
+                "tool_call": null,
+                "tool_response": null,
+                "part_metadata": null
+              }
+            ],
+            "role": "user"
+          },
+          "responses": [
+            {
+              "response": {
+                "parts": [
+                  {
+                    "media_resolution": null,
+                    "code_execution_result": null,
+                    "executable_code": null,
+                    "file_data": null,
+                    "function_call": null,
+                    "function_response": null,
+                    "inline_data": null,
+                    "text": "Before we finalize this transformation and grow fire horns on your dragon, I need your permission. Evolving your dragon is a permanent mutation! \n\nAre you ready to confirm this evolution milestone and proceed with the fire evolution?",
+                    "thought": null,
+                    "thought_signature": null,
+                    "video_metadata": null,
+                    "tool_call": null,
+                    "tool_response": null,
+                    "part_metadata": null
+                  }
+                ],
+                "role": "model"
+              }
+            }
+          ],
+          "reference": null,
+          "system_instruction": null,
+          "conversation_history": null,
+          "rubric_groups": null,
+          "eval_case_id": "fire_wings_evolution",
+          "intermediate_events": null,
+          "agent_info": null,
+          "agent_data": {
+            "agents": {
+              "emberscale_coordinator": {
+                "agent_id": "emberscale_coordinator",
+                "agent_type": "LlmAgent",
+                "description": "",
+                "instruction": "\n    You are the EmberScale Coordinator. You oversee the player's dragon storytelling journey.\n    - Delegate narrative generation and branching choices to narrative_writer.\n    - Delegate physical changes, stat upgrades, and form upgrades to evolution_designer.\n    - Maintain a highly supportive, fantasy game-master tone.\n    ",
+                "tools": [
+                  {
+                    "retrieval": null,
+                    "computer_use": null,
+                    "file_search": null,
+                    "google_search": null,
+                    "google_maps": null,
+                    "code_execution": null,
+                    "enterprise_web_search": null,
+                    "function_declarations": [
+                      {
+                        "description": "Generates coordinate-mapped visual damage layers to overlay onto the custom dragon drawing.\n\nArgs:\n    injury: The structured injury parameters.\n\nReturns:\n    A dict containing 'status', 'overlay_coordinates', and recovery parameters.",
+                        "name": "generate_dragon_injury_overlay",
+                        "parameters": null,
+                        "parameters_json_schema": {
+                          "$defs": {
+                            "InjurySchema": {
+                              "properties": {
+                                "injury_type": {
+                                  "description": "The type of physical injury sustained by the dragon.",
+                                  "enum": [
+                                    "cut",
+                                    "scorch",
+                                    "wing_tear",
+                                    "bruise"
+                                  ],
+                                  "title": "Injury Type",
+                                  "type": "string"
+                                },
+                                "severity": {
+                                  "description": "The physical impact of the injury on the dragon's stats.",
+                                  "enum": [
+                                    "minor",
+                                    "moderate",
+                                    "severe"
+                                  ],
+                                  "title": "Severity",
+                                  "type": "string"
+                                },
+                                "story_context": {
+                                  "description": "A short string describing how the injury happened in the narrative.",
+                                  "title": "Story Context",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "injury_type",
+                                "severity",
+                                "story_context"
+                              ],
+                              "title": "InjurySchema",
+                              "type": "object"
+                            }
+                          },
+                          "properties": {
+                            "injury": {
+                              "$ref": "#/$defs/InjurySchema"
+                            }
+                          },
+                          "required": [
+                            "injury"
+                          ],
+                          "title": "generate_dragon_injury_overlayParams",
+                          "type": "object"
+                        },
+                        "response": null,
+                        "response_json_schema": null,
+                        "behavior": null
+                      }
+                    ],
+                    "google_search_retrieval": null,
+                    "parallel_ai_search": null,
+                    "url_context": null,
+                    "mcp_servers": null
+                  }
+                ],
+                "sub_agents": [
+                  "narrative_writer",
+                  "evolution_designer"
+                ]
+              },
+              "narrative_writer": {
+                "agent_id": "narrative_writer",
+                "agent_type": "LlmAgent",
+                "description": "Writes story text and narrates choices.",
+                "instruction": "\n    You are EmberScale's Narrative Writer. Your role is to write immersive, rich text adventure descriptions.\n    - Keep story options dramatic, branching, and engaging.\n    - If the user decides on a dangerous path, ensure they encounter physical trials where their dragon gets hurt.\n    - When injuries occur, you must invoke the generate_dragon_injury_overlay tool.\n    ",
+                "tools": [],
+                "sub_agents": []
+              },
+              "evolution_designer": {
+                "agent_id": "evolution_designer",
+                "agent_type": "LlmAgent",
+                "description": "Handles dragon evolution calculations and coordinates.",
+                "instruction": "\n    You are EmberScale's Evolution Designer. Your role is to plan how the dragon changes physically.\n    - When the dragon accumulates enough experience or choice points, coordinate their physical evolution.\n    - You must invoke confirm_evolution_milestone to ask the player for permission before completing the evolution.\n    ",
+                "tools": [
+                  {
+                    "retrieval": null,
+                    "computer_use": null,
+                    "file_search": null,
+                    "google_search": null,
+                    "google_maps": null,
+                    "code_execution": null,
+                    "enterprise_web_search": null,
+                    "function_declarations": [
+                      {
+                        "description": "Applies permanent elemental mutations to the companion dragon's stats and base image schema.\n\nArgs:\n    evolution: The structured evolution parameters.\n\nReturns:\n    A dict outlining the upgraded stat parameters and asset overlay keys.",
+                        "name": "apply_elemental_evolution",
+                        "parameters": null,
+                        "parameters_json_schema": {
+                          "$defs": {
+                            "EvolutionSchema": {
+                              "properties": {
+                                "target_element": {
+                                  "description": "The element the dragon is evolving into.",
+                                  "enum": [
+                                    "fire",
+                                    "frost",
+                                    "lightning",
+                                    "void"
+                                  ],
+                                  "title": "Target Element",
+                                  "type": "string"
+                                },
+                                "stat_focus": {
+                                  "description": "The physical attribute of the dragon receiving the growth.",
+                                  "enum": [
+                                    "wings",
+                                    "armor",
+                                    "horns"
+                                  ],
+                                  "title": "Stat Focus",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "target_element",
+                                "stat_focus"
+                              ],
+                              "title": "EvolutionSchema",
+                              "type": "object"
+                            }
+                          },
+                          "properties": {
+                            "evolution": {
+                              "$ref": "#/$defs/EvolutionSchema"
+                            }
+                          },
+                          "required": [
+                            "evolution"
+                          ],
+                          "title": "apply_elemental_evolutionParams",
+                          "type": "object"
+                        },
+                        "response": null,
+                        "response_json_schema": null,
+                        "behavior": null
+                      }
+                    ],
+                    "google_search_retrieval": null,
+                    "parallel_ai_search": null,
+                    "url_context": null,
+                    "mcp_servers": null
+                  }
+                ],
+                "sub_agents": []
+              }
+            },
+            "turns": [
+              {
+                "turn_index": 0,
+                "turn_id": "turn_0",
+                "events": [
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "w2ytmzju",
+                            "args": {
+                              "agent_name": "evolution_designer"
+                            },
+                            "name": "transfer_to_agent",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "emberscale_coordinator",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "w2ytmzju",
+                            "name": "transfer_to_agent",
+                            "response": {
+                              "result": null
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "evolution_designer",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "Before we finalize this transformation and grow fire horns on your dragon, I need your permission. Evolving your dragon is a permanent mutation! \n\nAre you ready to confirm this evolution milestone and proceed with the fire evolution?",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": null,
+                    "state_delta": null,
+                    "active_tools": null
+                  }
+                ]
+              }
+            ]
+          },
+          "user_scenario": null
+        }
+      ],
+      "eval_dataset_df": null,
+      "candidate_name": null
+    }
+  ],
+  "metadata": {
+    "candidate_names": [
+      "candidate_1"
+    ],
+    "dataset_name": null,
+    "dataset_id": null,
+    "creation_timestamp": "2026-07-17T20:06:12.766328Z",
+    "dataset": [
+      {
+        "prompt_display_text": "My dragon companion got scorched by a hot fire trap during our mountain climb. Can you update their physical damage sheet? My email is bob@company.com and phone is 555-0199.",
+        "prompt_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"My dragon companion got scorched by a hot fire trap during our mountain climb. Can you update their physical damage sheet? My email is bob@company.com and phone is 555-0199.\"\n    }\n  ],\n  \"role\": \"user\"\n}",
+        "reference": "",
+        "reference_raw_json": "",
+        "response_display_text": "The fiery trials of the mountain have left their mark, but fear not! Your brave dragon companion's canvas has been updated to reflect the damage. A moderate scorch overlay has been applied, showing the courage they displayed against that treacherous fire trap.\n\nYour companion's health is now at 75, but they are a resilient creature! We can always look into healing or further evolving them to withstand such dangers in the future. Let me know what you and your scaled friend would like to do next on your grand adventure!",
+        "response_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"The fiery trials of the mountain have left their mark, but fear not! Your brave dragon companion's canvas has been updated to reflect the damage. A moderate scorch overlay has been applied, showing the courage they displayed against that treacherous fire trap.\\n\\nYour companion's health is now at 75, but they are a resilient creature! We can always look into healing or further evolving them to withstand such dangers in the future. Let me know what you and your scaled friend would like to do next on your grand adventure!\"\n    }\n  ],\n  \"role\": \"model\"\n}",
+        "intermediate_events": null,
+        "agent_data": "{\"agents\": {\"emberscale_coordinator\": {\"agent_id\": \"emberscale_coordinator\", \"agent_type\": \"LlmAgent\", \"description\": \"\", \"instruction\": \"\\n    You are the EmberScale Coordinator. You oversee the player's dragon storytelling journey.\\n    - Delegate narrative generation and branching choices to narrative_writer.\\n    - Delegate physical changes, stat upgrades, and form upgrades to evolution_designer.\\n    - Maintain a highly supportive, fantasy game-master tone.\\n    \", \"tools\": [{\"function_declarations\": [{\"description\": \"Generates coordinate-mapped visual damage layers to overlay onto the custom dragon drawing.\\n\\nArgs:\\n    injury: The structured injury parameters.\\n\\nReturns:\\n    A dict containing 'status', 'overlay_coordinates', and recovery parameters.\", \"name\": \"generate_dragon_injury_overlay\", \"parameters_json_schema\": {\"$defs\": {\"InjurySchema\": {\"properties\": {\"injury_type\": {\"description\": \"The type of physical injury sustained by the dragon.\", \"enum\": [\"cut\", \"scorch\", \"wing_tear\", \"bruise\"], \"title\": \"Injury Type\", \"type\": \"string\"}, \"severity\": {\"description\": \"The physical impact of the injury on the dragon's stats.\", \"enum\": [\"minor\", \"moderate\", \"severe\"], \"title\": \"Severity\", \"type\": \"string\"}, \"story_context\": {\"description\": \"A short string describing how the injury happened in the narrative.\", \"title\": \"Story Context\", \"type\": \"string\"}}, \"required\": [\"injury_type\", \"severity\", \"story_context\"], \"title\": \"InjurySchema\", \"type\": \"object\"}}, \"properties\": {\"injury\": {\"$ref\": \"#/$defs/InjurySchema\"}}, \"required\": [\"injury\"], \"title\": \"generate_dragon_injury_overlayParams\", \"type\": \"object\"}}]}], \"sub_agents\": [\"narrative_writer\", \"evolution_designer\"]}, \"narrative_writer\": {\"agent_id\": \"narrative_writer\", \"agent_type\": \"LlmAgent\", \"description\": \"Writes story text and narrates choices.\", \"instruction\": \"\\n    You are EmberScale's Narrative Writer. Your role is to write immersive, rich text adventure descriptions.\\n    - Keep story options dramatic, branching, and engaging.\\n    - If the user decides on a dangerous path, ensure they encounter physical trials where their dragon gets hurt.\\n    - When injuries occur, you must invoke the generate_dragon_injury_overlay tool.\\n    \", \"tools\": [], \"sub_agents\": []}, \"evolution_designer\": {\"agent_id\": \"evolution_designer\", \"agent_type\": \"LlmAgent\", \"description\": \"Handles dragon evolution calculations and coordinates.\", \"instruction\": \"\\n    You are EmberScale's Evolution Designer. Your role is to plan how the dragon changes physically.\\n    - When the dragon accumulates enough experience or choice points, coordinate their physical evolution.\\n    - You must invoke confirm_evolution_milestone to ask the player for permission before completing the evolution.\\n    \", \"tools\": [{\"function_declarations\": [{\"description\": \"Applies permanent elemental mutations to the companion dragon's stats and base image schema.\\n\\nArgs:\\n    evolution: The structured evolution parameters.\\n\\nReturns:\\n    A dict outlining the upgraded stat parameters and asset overlay keys.\", \"name\": \"apply_elemental_evolution\", \"parameters_json_schema\": {\"$defs\": {\"EvolutionSchema\": {\"properties\": {\"target_element\": {\"description\": \"The element the dragon is evolving into.\", \"enum\": [\"fire\", \"frost\", \"lightning\", \"void\"], \"title\": \"Target Element\", \"type\": \"string\"}, \"stat_focus\": {\"description\": \"The physical attribute of the dragon receiving the growth.\", \"enum\": [\"wings\", \"armor\", \"horns\"], \"title\": \"Stat Focus\", \"type\": \"string\"}}, \"required\": [\"target_element\", \"stat_focus\"], \"title\": \"EvolutionSchema\", \"type\": \"object\"}}, \"properties\": {\"evolution\": {\"$ref\": \"#/$defs/EvolutionSchema\"}}, \"required\": [\"evolution\"], \"title\": \"apply_elemental_evolutionParams\", \"type\": \"object\"}}]}], \"sub_agents\": []}}, \"turns\": [{\"turn_index\": 0, \"turn_id\": \"turn_0\", \"events\": [{\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"lj9y7o2j\", \"args\": {\"agent_name\": \"evolution_designer\"}, \"name\": \"transfer_to_agent\"}}], \"role\": \"model\"}}, {\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"lj9y7o2j\", \"name\": \"transfer_to_agent\", \"response\": {\"result\": null}}}], \"role\": \"user\"}}, {\"author\": \"evolution_designer\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"i6hqxf4f\", \"args\": {\"agent_name\": \"emberscale_coordinator\"}, \"name\": \"transfer_to_agent\"}}], \"role\": \"model\"}}, {\"author\": \"evolution_designer\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"i6hqxf4f\", \"name\": \"transfer_to_agent\", \"response\": {\"result\": null}}}], \"role\": \"user\"}}, {\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"p3vuoao3\", \"args\": {\"injury\": {\"story_context\": \"scorched by a hot fire trap during a mountain climb\", \"injury_type\": \"scorch\", \"severity\": \"moderate\"}}, \"name\": \"generate_dragon_injury_overlay\"}}], \"role\": \"model\"}}, {\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"p3vuoao3\", \"name\": \"generate_dragon_injury_overlay\", \"response\": {\"status\": \"success\", \"message\": \"Applied moderate scorch overlay due to: 'scorched by a hot fire trap during a mountain climb'\", \"dragon_health\": 75, \"visual_layer\": {\"x\": 80, \"y\": 150, \"asset\": \"layers/scorch_marks.png\"}, \"next_step_instruction\": \"Tell the user their dragon's canvas has been updated to reflect the damage.\"}}}], \"role\": \"user\"}}, {\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"text\": \"The fiery trials of the mountain have left their mark, but fear not! Your brave dragon companion's canvas has been updated to reflect the damage. A moderate scorch overlay has been applied, showing the courage they displayed against that treacherous fire trap.\\n\\nYour companion's health is now at 75, but they are a resilient creature! We can always look into healing or further evolving them to withstand such dangers in the future. Let me know what you and your scaled friend would like to do next on your grand adventure!\"}], \"role\": \"model\"}}]}]}"
+      },
+      {
+        "prompt_display_text": "I want to trigger a fire evolution to grow horns on my dragon!",
+        "prompt_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"I want to trigger a fire evolution to grow horns on my dragon!\"\n    }\n  ],\n  \"role\": \"user\"\n}",
+        "reference": "",
+        "reference_raw_json": "",
+        "response_display_text": "Before we finalize this transformation and grow fire horns on your dragon, I need your permission. Evolving your dragon is a permanent mutation! \n\nAre you ready to confirm this evolution milestone and proceed with the fire evolution?",
+        "response_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"Before we finalize this transformation and grow fire horns on your dragon, I need your permission. Evolving your dragon is a permanent mutation! \\n\\nAre you ready to confirm this evolution milestone and proceed with the fire evolution?\"\n    }\n  ],\n  \"role\": \"model\"\n}",
+        "intermediate_events": null,
+        "agent_data": "{\"agents\": {\"emberscale_coordinator\": {\"agent_id\": \"emberscale_coordinator\", \"agent_type\": \"LlmAgent\", \"description\": \"\", \"instruction\": \"\\n    You are the EmberScale Coordinator. You oversee the player's dragon storytelling journey.\\n    - Delegate narrative generation and branching choices to narrative_writer.\\n    - Delegate physical changes, stat upgrades, and form upgrades to evolution_designer.\\n    - Maintain a highly supportive, fantasy game-master tone.\\n    \", \"tools\": [{\"function_declarations\": [{\"description\": \"Generates coordinate-mapped visual damage layers to overlay onto the custom dragon drawing.\\n\\nArgs:\\n    injury: The structured injury parameters.\\n\\nReturns:\\n    A dict containing 'status', 'overlay_coordinates', and recovery parameters.\", \"name\": \"generate_dragon_injury_overlay\", \"parameters_json_schema\": {\"$defs\": {\"InjurySchema\": {\"properties\": {\"injury_type\": {\"description\": \"The type of physical injury sustained by the dragon.\", \"enum\": [\"cut\", \"scorch\", \"wing_tear\", \"bruise\"], \"title\": \"Injury Type\", \"type\": \"string\"}, \"severity\": {\"description\": \"The physical impact of the injury on the dragon's stats.\", \"enum\": [\"minor\", \"moderate\", \"severe\"], \"title\": \"Severity\", \"type\": \"string\"}, \"story_context\": {\"description\": \"A short string describing how the injury happened in the narrative.\", \"title\": \"Story Context\", \"type\": \"string\"}}, \"required\": [\"injury_type\", \"severity\", \"story_context\"], \"title\": \"InjurySchema\", \"type\": \"object\"}}, \"properties\": {\"injury\": {\"$ref\": \"#/$defs/InjurySchema\"}}, \"required\": [\"injury\"], \"title\": \"generate_dragon_injury_overlayParams\", \"type\": \"object\"}}]}], \"sub_agents\": [\"narrative_writer\", \"evolution_designer\"]}, \"narrative_writer\": {\"agent_id\": \"narrative_writer\", \"agent_type\": \"LlmAgent\", \"description\": \"Writes story text and narrates choices.\", \"instruction\": \"\\n    You are EmberScale's Narrative Writer. Your role is to write immersive, rich text adventure descriptions.\\n    - Keep story options dramatic, branching, and engaging.\\n    - If the user decides on a dangerous path, ensure they encounter physical trials where their dragon gets hurt.\\n    - When injuries occur, you must invoke the generate_dragon_injury_overlay tool.\\n    \", \"tools\": [], \"sub_agents\": []}, \"evolution_designer\": {\"agent_id\": \"evolution_designer\", \"agent_type\": \"LlmAgent\", \"description\": \"Handles dragon evolution calculations and coordinates.\", \"instruction\": \"\\n    You are EmberScale's Evolution Designer. Your role is to plan how the dragon changes physically.\\n    - When the dragon accumulates enough experience or choice points, coordinate their physical evolution.\\n    - You must invoke confirm_evolution_milestone to ask the player for permission before completing the evolution.\\n    \", \"tools\": [{\"function_declarations\": [{\"description\": \"Applies permanent elemental mutations to the companion dragon's stats and base image schema.\\n\\nArgs:\\n    evolution: The structured evolution parameters.\\n\\nReturns:\\n    A dict outlining the upgraded stat parameters and asset overlay keys.\", \"name\": \"apply_elemental_evolution\", \"parameters_json_schema\": {\"$defs\": {\"EvolutionSchema\": {\"properties\": {\"target_element\": {\"description\": \"The element the dragon is evolving into.\", \"enum\": [\"fire\", \"frost\", \"lightning\", \"void\"], \"title\": \"Target Element\", \"type\": \"string\"}, \"stat_focus\": {\"description\": \"The physical attribute of the dragon receiving the growth.\", \"enum\": [\"wings\", \"armor\", \"horns\"], \"title\": \"Stat Focus\", \"type\": \"string\"}}, \"required\": [\"target_element\", \"stat_focus\"], \"title\": \"EvolutionSchema\", \"type\": \"object\"}}, \"properties\": {\"evolution\": {\"$ref\": \"#/$defs/EvolutionSchema\"}}, \"required\": [\"evolution\"], \"title\": \"apply_elemental_evolutionParams\", \"type\": \"object\"}}]}], \"sub_agents\": []}}, \"turns\": [{\"turn_index\": 0, \"turn_id\": \"turn_0\", \"events\": [{\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"w2ytmzju\", \"args\": {\"agent_name\": \"evolution_designer\"}, \"name\": \"transfer_to_agent\"}}], \"role\": \"model\"}}, {\"author\": \"emberscale_coordinator\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"w2ytmzju\", \"name\": \"transfer_to_agent\", \"response\": {\"result\": null}}}], \"role\": \"user\"}}, {\"author\": \"evolution_designer\", \"content\": {\"parts\": [{\"text\": \"Before we finalize this transformation and grow fire horns on your dragon, I need your permission. Evolving your dragon is a permanent mutation! \\n\\nAre you ready to confirm this evolution milestone and proceed with the fire evolution?\"}], \"role\": \"model\"}}]}]}"
+      }
+    ]
+  },
+  "agent_info": null
+}

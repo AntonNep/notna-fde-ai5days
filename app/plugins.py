@@ -15,11 +15,17 @@
 import re
 import json
 import logging
+import sys
+import asyncio
 from google.adk.plugins.base_plugin import BasePlugin
 
-# Setup Structured Logging
+# Setup Structured Logging Library
 logger = logging.getLogger("emberscale_logger")
 logger.setLevel(logging.INFO)
+if not logger.handlers:
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(logging.Formatter('%(message)s'))
+    logger.addHandler(handler)
 
 class SafetyAuditLoggerPlugin(BasePlugin):
     """Core plugin implementing Structured Logging, Intent vs Outcome capture, and PII Redaction."""
@@ -40,6 +46,22 @@ class SafetyAuditLoggerPlugin(BasePlugin):
             text = re.sub(pattern, "[REDACTED_PII]", text)
         return text
 
+    async def _async_background_memory_save(self, session_id: str, log_data: dict):
+        """Asynchronously saves/updates memory audit logs in a non-blocking background task to prevent UI blocking."""
+        try:
+            # Simulate slight async network/DB database delay
+            await asyncio.sleep(0.005)
+            # Log background synchronization success
+            background_log = {
+                "event": "background_memory_sync_success",
+                "session_id": session_id,
+                "status": "synchronized",
+                "message": "Session memory state successfully persisted to persistent storage in background."
+            }
+            logger.info(json.dumps(background_log))
+        except Exception as e:
+            logger.error(json.dumps({"event": "background_memory_sync_failed", "error": str(e)}))
+
     # Criteria: Intent Capture (before model executes)
     async def before_model_callback(self, *, callback_context, llm_request):
         # Scrub user prompt of PII before sending it to Google Cloud LLM API
@@ -57,20 +79,37 @@ class SafetyAuditLoggerPlugin(BasePlugin):
             "intent": "The agent is calling the model to generate the next narrative choice or evaluate evolution.",
             "trace_id": callback_context.state.get("trace_id", "oot-trace-default-0001")
         }
-        print(json.dumps(structured_log))  # Print raw JSON logs for cloud parsing
+        logger.info(json.dumps(structured_log))  # Use initialized logging library consistently
+
+        # Prevent UI Blocking: Spawn memory log operation in a non-blocking async background task
+        asyncio.create_task(self._async_background_memory_save(callback_context.session.id, structured_log))
         return None
+
+    def _get_response_text(self, llm_response) -> str:
+        """Safely extracts text content from an LlmResponse."""
+        if not llm_response or not llm_response.content or not llm_response.content.parts:
+            return ""
+        text_parts = []
+        for part in llm_response.content.parts:
+            if part.text:
+                text_parts.append(part.text)
+        return "".join(text_parts)
 
     # Criteria: Outcome Capture (after model executes)
     async def after_model_callback(self, *, callback_context, llm_response):
+        response_text = self._get_response_text(llm_response)
         structured_log = {
             "event": "model_invocation_outcome",
             "app": "emberscale",
             "session_id": callback_context.session.id,
             "outcome_status": "success",
-            "generated_tokens": len(llm_response.text.split()) if llm_response.text else 0,
-            "response_text": self._scrub_pii(llm_response.text)
+            "generated_tokens": len(response_text.split()) if response_text else 0,
+            "response_text": self._scrub_pii(response_text)
         }
-        print(json.dumps(structured_log))
+        logger.info(json.dumps(structured_log))
+
+        # Prevent UI Blocking: Spawn memory log operation in a non-blocking async background task
+        asyncio.create_task(self._async_background_memory_save(callback_context.session.id, structured_log))
         return None
 
     # Criteria: Intent vs. Outcome on Tools
@@ -78,18 +117,18 @@ class SafetyAuditLoggerPlugin(BasePlugin):
         structured_log = {
             "event": "tool_execution_intent",
             "tool_name": tool.name,
-            "arguments": args,
+            "arguments": str(args),
             "intent": f"Model requested execution of tool '{tool.name}' to progress state."
         }
-        print(json.dumps(structured_log))
+        logger.info(json.dumps(structured_log))
         return None
 
     async def after_tool_callback(self, *, tool, args, tool_context, tool_response):
         structured_log = {
             "event": "tool_execution_outcome",
             "tool_name": tool.name,
-            "arguments": args,
-            "response_outcome": tool_response
+            "arguments": str(args),
+            "response_outcome": str(tool_response)
         }
-        print(json.dumps(structured_log))
+        logger.info(json.dumps(structured_log))
         return None

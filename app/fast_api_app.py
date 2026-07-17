@@ -16,15 +16,36 @@ import os
 import google.auth
 from fastapi import FastAPI
 from google.adk.cli.fast_api import get_fast_api_app
-from google.cloud import logging as google_cloud_logging
 
 from app.app_utils.telemetry import setup_telemetry
 from app.app_utils.typing import Feedback
 
+import logging as std_logging
+
 setup_telemetry()
-_, project_id = google.auth.default()
-logging_client = google_cloud_logging.Client()
-logger = logging_client.logger(__name__)
+
+# Resilient credentials loading
+try:
+    _, project_id = google.auth.default()
+except Exception:
+    project_id = "default-project"
+
+# Resilient Cloud Logging configuration with standard logging library fallback
+try:
+    if os.getenv("INTEGRATION_TEST") == "TRUE":
+        raise ValueError("Integration test mode: bypassing active Cloud Logging API connections.")
+    from google.cloud import logging as google_cloud_logging
+    logging_client = google_cloud_logging.Client()
+    logger = logging_client.logger(__name__)
+    use_cloud_logging = True
+except Exception:
+    logger = std_logging.getLogger("emberscale_fastapi")
+    logger.setLevel(std_logging.INFO)
+    if not logger.handlers:
+        handler = std_logging.StreamHandler()
+        logger.addHandler(handler)
+    use_cloud_logging = False
+
 allow_origins = (
     os.getenv("ALLOW_ORIGINS", "").split(",") if os.getenv("ALLOW_ORIGINS") else None
 )
@@ -33,8 +54,8 @@ allow_origins = (
 logs_bucket_name = os.environ.get("LOGS_BUCKET_NAME")
 
 AGENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# In-memory session configuration - no persistent storage
-session_service_uri = None
+# Persistent async SQLite database session configuration
+session_service_uri = "sqlite+aiosqlite:///emberscale_sessions.db"
 
 artifact_service_uri = f"gs://{logs_bucket_name}" if logs_bucket_name else None
 
@@ -60,7 +81,11 @@ def collect_feedback(feedback: Feedback) -> dict[str, str]:
     Returns:
         Success message
     """
-    logger.log_struct(feedback.model_dump(), severity="INFO")
+    if use_cloud_logging:
+        logger.log_struct(feedback.model_dump(), severity="INFO")
+    else:
+        import json
+        logger.info(json.dumps(feedback.model_dump()))
     return {"status": "success"}
 
 
